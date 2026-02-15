@@ -16,12 +16,16 @@ const resolveIntent = (value?: string) => {
   return "contact";
 };
 
-export default function ContactPage({
+type SearchParams = {
+  intent?: string;
+};
+export default async function ContactPage({
   searchParams,
 }: {
-  searchParams?: { intent?: string };
+  searchParams?: Promise<SearchParams>;
 }) {
-  const intent = resolveIntent(searchParams?.intent);
+  const sp = (await searchParams) ?? {};
+  const intent = resolveIntent(sp.intent);
 
   return (
     <div>
@@ -66,7 +70,7 @@ export default function ContactPage({
 
           <div className="card bg-white">
             <LeadForm
-              intent={intent as "consult" | "quote" | "contact"}
+              intent={intent}
               ctaLabel={
                 intent === "consult"
                   ? "Book a consult"
