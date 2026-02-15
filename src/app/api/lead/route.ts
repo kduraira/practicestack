@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       message: payload.message ? String(payload.message) : "",
     };
 
-    const id = insertLead(lead);
+    const id = await insertLead(lead);
     await sendLeadEmail(lead);
 
     return NextResponse.json({ ok: true, id });
